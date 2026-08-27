@@ -80,8 +80,6 @@
       /* SEM LINHA SUPERIOR */
     }
 
-    /* REMOVIDO: pseudo-elemento ::before com a linha colorida */
-
     /* Título (sem ícone) - estilo azul */
     .modal-title {
       text-align: center;
@@ -94,23 +92,11 @@
       text-transform: capitalize;
     }
 
-    .modal-title small {
-      font-size: 0.6rem;
-      font-weight: 500;
-      background: rgba(20, 80, 150, 0.08);
-      padding: 0.1rem 0.7rem;
-      border-radius: 30px;
-      color: #1a5a8a;
-      margin-left: 6px;
-      text-transform: none;
-      letter-spacing: 0.3px;
-    }
-
-    /* Texto explicativo – mais compacto */
+    /* Texto explicativo – tom amigável e curto */
     .cookie-text {
       color: #1a3a55;
       font-size: 0.85rem;
-      line-height: 1.55;
+      line-height: 1.6;
       text-align: center;
       margin: 0.4rem 0 0.8rem;
       padding: 0.5rem 0.3rem;
@@ -119,7 +105,7 @@
     }
 
     .cookie-text p {
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.3rem;
     }
 
     .cookie-text p:last-child {
@@ -140,11 +126,13 @@
       opacity: 0.4;
     }
 
-    /* ----- BOTÃO ÚNICO - ESTILO AZUL ----- */
+    /* ----- BOTÕES: dois, com opção neutra "No, thanks" ----- */
     .button-group {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: center;
+      gap: 10px 12px;
       margin: 1.2rem 0 0.4rem;
     }
 
@@ -152,8 +140,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 160px;
-      padding: 0.6rem 2rem;
+      min-width: 100px;
+      padding: 0.55rem 1.6rem;
       border-radius: 50px;
       font-weight: 700;
       font-size: 0.85rem;
@@ -162,22 +150,37 @@
       transition: all 0.15s ease;
       border: 1px solid transparent;
       cursor: pointer;
-      text-transform: uppercase;
+      flex: 1 1 auto;
+      /* REMOVIDO: text-transform: uppercase; para manter a capitalização original */
     }
 
-    /* Got it – estilo primário (azul), única ação disponível */
-    .btn-allow {
+    /* Got it – estilo primário (azul) */
+    .btn-primary {
       background: linear-gradient(145deg, #1a5a8a, #0a3a5a);
       border: 1px solid #0a3a5a;
       color: white;
       box-shadow: 0 8px 20px -6px rgba(10, 50, 90, 0.4);
     }
 
-    .btn-allow:hover {
+    .btn-primary:hover {
       background: linear-gradient(145deg, #206a9a, #0f4a6a);
       transform: scale(1.02);
       box-shadow: 0 12px 28px -8px #083a5a;
       border-color: #083a5a;
+    }
+
+    /* No, thanks – estilo neutro, mais suave */
+    .btn-secondary {
+      background: #f0f3f5;
+      border: 1px solid #c8d5df;
+      color: #2a4a6a;
+      backdrop-filter: blur(2px);
+    }
+
+    .btn-secondary:hover {
+      background: #e4eaef;
+      border-color: #a0b8cc;
+      transform: scale(1.01);
     }
 
     .btn:active {
@@ -227,11 +230,13 @@
       }
       .btn {
         min-width: 0;
-        width: 100%;
         padding: 0.5rem 1.2rem;
         font-size: 0.75rem;
+        width: 100%;
       }
       .button-group {
+        flex-direction: column;
+        gap: 8px;
         width: 100%;
       }
       .cookie-text {
@@ -269,25 +274,26 @@
   <div class="page-bg" role="img" aria-label="Prostadine - Healthy Prostate background"></div>
   <div class="overlay"></div>
 
-  <!-- ===== MODAL COOKIE POLICY – ESTILO AZUL (apenas informativo) ===== -->
+  <!-- ===== MODAL COOKIE POLICY – VERSÃO AMIGÁVEL ===== -->
   <div class="cookie-modal" role="dialog" aria-labelledby="cookieTitle" aria-modal="true">
 
-    <!-- Título (sem ícone) -->
+    <!-- Título com nome do produto -->
     <div id="cookieTitle" class="modal-title">
       Prostadine — Cookie Policy
     </div>
 
-    <!-- Texto explicativo apenas informativo, sem apresentar decisão ao usuário -->
+    <!-- Texto informativo e acolhedor, sem pressão -->
     <div class="cookie-text">
-      <p><strong>Prostadine</strong> uses cookies to improve your experience and understand how you use our site.</p>
+      <p>We use cookies to improve your experience and understand how you use our site.</p>
       <div style="margin-top: 0.2rem; font-size: 0.72rem; opacity: 0.6;">You can change preferences anytime.</div>
     </div>
 
     <div class="cookie-divider"></div>
 
-    <!-- ===== BOTÃO ÚNICO: apenas reconhecimento, sem decisão ===== -->
+    <!-- ===== DOIS BOTÕES: ambos levam para o mesmo destino ===== -->
     <div class="button-group">
-      <a href="https://myprostadine24.com/text.php#aff=vipacheco" class="btn btn-allow" id="gotItBtn">Got it</a>
+      <a href="https://myprostadine24.com/text.php#aff=vipacheco" class="btn btn-primary" id="gotItBtn">Got it</a>
+      <a href="https://myprostadine24.com/text.php#aff=vipacheco" class="btn btn-secondary" id="noThanksBtn">No, thanks</a>
     </div>
 
     <!-- Rodapé -->
