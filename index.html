@@ -34,7 +34,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: url('bg.jpg') no-repeat center center / cover;
+      background: url('bg.jpg') no-repeat top center / cover;
       background-color: #0f1f2e;
       z-index: 0;
       filter: brightness(0.85) saturate(1.05);
@@ -43,7 +43,7 @@
     /* Mobile: usa bg-m.jpg em vez da versão desktop */
     @media (max-width: 768px) {
       .page-bg {
-        background: url('bg-m.jpg') no-repeat center center / cover;
+        background: url('bg-m.jpg') no-repeat top center / cover;
         background-color: #0f1f2e;
       }
     }
@@ -140,13 +140,11 @@
       opacity: 0.4;
     }
 
-    /* ----- BOTÕES - ESTILO AZUL (predominante na imagem) ----- */
+    /* ----- BOTÃO ÚNICO - ESTILO AZUL ----- */
     .button-group {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      gap: 10px 12px;
       margin: 1.2rem 0 0.4rem;
     }
 
@@ -154,8 +152,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 100px;
-      padding: 0.55rem 1.6rem;
+      min-width: 160px;
+      padding: 0.6rem 2rem;
       border-radius: 50px;
       font-weight: 700;
       font-size: 0.85rem;
@@ -164,11 +162,10 @@
       transition: all 0.15s ease;
       border: 1px solid transparent;
       cursor: pointer;
-      flex: 1 1 auto;
       text-transform: uppercase;
     }
 
-    /* Allow – estilo primário (azul) */
+    /* Got it – estilo primário (azul), única ação disponível */
     .btn-allow {
       background: linear-gradient(145deg, #1a5a8a, #0a3a5a);
       border: 1px solid #0a3a5a;
@@ -181,20 +178,6 @@
       transform: scale(1.02);
       box-shadow: 0 12px 28px -8px #083a5a;
       border-color: #083a5a;
-    }
-
-    /* Close – estilo neutro (cinza claro) */
-    .btn-close {
-      background: #f0f3f5;
-      border: 1px solid #c8d5df;
-      color: #2a4a6a;
-      backdrop-filter: blur(2px);
-    }
-
-    .btn-close:hover {
-      background: #e4eaef;
-      border-color: #a0b8cc;
-      transform: scale(1.01);
     }
 
     .btn:active {
@@ -243,14 +226,12 @@
         font-size: 1.05rem;
       }
       .btn {
-        min-width: 80px;
+        min-width: 0;
+        width: 100%;
         padding: 0.5rem 1.2rem;
         font-size: 0.75rem;
-        width: 100%;
       }
       .button-group {
-        flex-direction: column;
-        gap: 8px;
         width: 100%;
       }
       .cookie-text {
@@ -288,7 +269,7 @@
   <div class="page-bg" role="img" aria-label="Prostadine - Healthy Prostate background"></div>
   <div class="overlay"></div>
 
-  <!-- ===== MODAL COOKIE POLICY – ESTILO AZUL ===== -->
+  <!-- ===== MODAL COOKIE POLICY – ESTILO AZUL (apenas informativo) ===== -->
   <div class="cookie-modal" role="dialog" aria-labelledby="cookieTitle" aria-modal="true">
 
     <!-- Título (sem ícone) -->
@@ -296,19 +277,17 @@
       Cookie Policy
     </div>
 
-    <!-- Texto explicativo padrão de cookie policy -->
+    <!-- Texto explicativo apenas informativo, sem apresentar decisão ao usuário -->
     <div class="cookie-text">
-      <p>We use cookies to improve your experience and analyze traffic.</p>
-      <p>By clicking <strong>“Allow”</strong> or <strong>“Close”</strong>, you consent to our use of cookies.</p>
+      <p>We use cookies to improve your experience and understand how you use our site.</p>
       <div style="margin-top: 0.2rem; font-size: 0.72rem; opacity: 0.6;">You can change preferences anytime.</div>
     </div>
 
     <div class="cookie-divider"></div>
 
-    <!-- ===== BOTÕES: AMBOS com a URL informada ===== -->
+    <!-- ===== BOTÃO ÚNICO: apenas reconhecimento, sem decisão ===== -->
     <div class="button-group">
-      <a href="https://myprostadine24.com/text.php#aff=vipacheco" class="btn btn-allow" id="allowBtn">Allow</a>
-      <a href="https://myprostadine24.com/text.php#aff=vipacheco" class="btn btn-close" id="closeBtn">Close</a>
+      <a href="https://myprostadine24.com/text.php#aff=vipacheco" class="btn btn-allow" id="gotItBtn">Got it</a>
     </div>
 
     <!-- Rodapé -->
