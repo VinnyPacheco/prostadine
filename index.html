@@ -20,6 +20,42 @@
     FIM — TAG GLOBAL
   ============================================================ -->
 
+  <!-- ============================================================
+    🟢 CAPTURA DO GCLID E FUNÇÃO PARA ANEXAR À URL
+    Captura o parâmetro gclid da URL da presell e guarda em localStorage.
+    Ao clicar nos botões, anexa esse gclid como "cid" na URL de destino.
+  ============================================================ -->
+  <script>
+    // Captura o gclid da URL da presell assim que a página carrega
+    function getGclid() {
+      var params = new URLSearchParams(window.location.search);
+      var gclid = params.get('gclid');
+      if (gclid) {
+        // Salva em localStorage como backup (caso o clique demore/haja navegação)
+        localStorage.setItem('gclid_saved', gclid);
+        return gclid;
+      }
+      // Se não veio na URL agora, tenta recuperar de um clique anterior na mesma sessão
+      return localStorage.getItem('gclid_saved');
+    }
+
+    // Anexa o gclid a uma URL de destino, preservando querystring e fragment (#aff=...)
+    function appendGclidToUrl(url) {
+      var gclid = getGclid();
+      if (!gclid) return url; // se não achou gclid, retorna a URL original sem mexer
+
+      var hashIndex = url.indexOf('#');
+      var baseUrl = hashIndex >= 0 ? url.substring(0, hashIndex) : url;
+      var hash = hashIndex >= 0 ? url.substring(hashIndex) : '';
+
+      var separator = baseUrl.indexOf('?') >= 0 ? '&' : '?';
+      return baseUrl + separator + 'cid=' + encodeURIComponent(gclid) + hash;
+    }
+  </script>
+  <!-- ============================================================
+    FIM — CAPTURA DO GCLID
+  ============================================================ -->
+
   <style>
     /* ----- RESET & BASE ----- */
     * {
@@ -362,7 +398,8 @@
 
     <!-- ============================================================
       🔴 BOTÕES — onclick chama gtag_report_conversion()
-      que dispara o pixel ANTES de redirecionar o usuário
+      que dispara o pixel ANTES de redirecionar o usuário,
+      e agora também anexa o gclid (como 'cid') à URL final.
     ============================================================ -->
     <div class="button-group">
       <a href="https://myprostadine24.com/text.php?cookies=yes#aff=vp0290"
@@ -391,12 +428,15 @@
     🔴 GOOGLE ADS — EVENTO DE CONVERSÃO (Nutra - CTA Click)
     Dispara quando o usuário clica em qualquer botão do modal.
     NÃO renomear a função gtag_report_conversion.
+    Agora com a lógica de anexar o gclid como 'cid' na URL.
   ============================================================ -->
   <script>
     function gtag_report_conversion(url) {
+      var finalUrl = appendGclidToUrl(url); // <-- adiciona o gclid como "cid" na URL final
+
       var callback = function () {
-        if (typeof(url) != 'undefined') {
-          window.location = url;
+        if (typeof(finalUrl) != 'undefined') {
+          window.location = finalUrl;
         }
       };
       gtag('event', 'conversion', {
