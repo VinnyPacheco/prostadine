@@ -22,8 +22,6 @@
 
   <!-- ============================================================
     🟢 CAPTURA DO GCLID E FUNÇÃO PARA ANEXAR À URL
-    Captura o parâmetro gclid da URL da presell e guarda em localStorage.
-    Ao clicar nos botões, anexa esse gclid como "cid" na URL de destino.
   ============================================================ -->
   <script>
     function getGclid() {
@@ -61,7 +59,6 @@
       font-family: 'Segoe UI', Roboto, system-ui, -apple-system, 'Helvetica Neue', sans-serif;
     }
 
-    /* Modal ancorado na base com 2vh de espaço */
     body {
       min-height: 100vh;
       display: flex;
@@ -88,7 +85,6 @@
       filter: brightness(0.9) saturate(1.05);
     }
 
-    /* Mobile: usa bg-m.jpg em vez da versão desktop */
     @media (max-width: 768px) {
       .page-bg {
         background: url('bg-m.jpg') no-repeat top center / cover;
@@ -96,8 +92,7 @@
       }
     }
 
-    /* Overlay — escurecimento PROGRESSIVO sincronizado com o modal.
-       Velocidade MÉDIA (0.8s). Começa transparente e escurece até 0.35. */
+    /* Overlay — escurecimento progressivo (entrada) */
     .overlay {
       position: fixed;
       top: 0;
@@ -110,15 +105,21 @@
     }
 
     @keyframes darkenIn {
-      0% {
-        background: rgba(8, 20, 35, 0);
-      }
-      100% {
-        background: rgba(8, 20, 35, 0.35);
-      }
+      0%   { background: rgba(8, 20, 35, 0); }
+      100% { background: rgba(8, 20, 35, 0.35); }
     }
 
-    /* ----- MODAL - ESTILO PERSONALIZADO (cor #5364A8) ----- */
+    /* Overlay — saída: clareia rápido (0.4s, ease-in) */
+    .overlay.exit {
+      animation: lightenOut 0.4s ease-in forwards;
+    }
+
+    @keyframes lightenOut {
+      0%   { background: rgba(8, 20, 35, 0.35); }
+      100% { background: rgba(8, 20, 35, 0); }
+    }
+
+    /* ----- MODAL (cor #5364A8) ----- */
     .cookie-modal {
       position: relative;
       z-index: 20;
@@ -130,14 +131,23 @@
       border-radius: 20px 20px 18px 18px;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 10px 24px rgba(30, 40, 80, 0.3);
       padding: 1.8rem 1.8rem 1.6rem;
-      /* Velocidade MÉDIA (0.8s) */
       animation: slideUpBounce 0.8s cubic-bezier(0.25, 0.8, 0.35, 1) forwards;
       transform-origin: center;
       margin: 12px;
       border: none;
     }
 
-    /* Botão "X" no canto superior direito */
+    /* Modal — saída: desce direto (0.4s, ease-in) */
+    .cookie-modal.exit {
+      animation: slideDownExit 0.4s ease-in forwards;
+    }
+
+    @keyframes slideDownExit {
+      0%   { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(100vh); }
+    }
+
+    /* Botão "X" */
     .modal-close {
       position: absolute;
       top: 10px;
@@ -166,11 +176,9 @@
       transform: scale(1.08);
     }
 
-    .modal-close:active {
-      transform: scale(0.94);
-    }
+    .modal-close:active { transform: scale(0.94); }
 
-    /* Título */
+    /* Título — tom escuro (#3A4A7A) */
     .modal-title {
       text-align: center;
       font-size: 1.25rem;
@@ -194,18 +202,9 @@
       border-radius: 12px;
     }
 
-    .cookie-text p {
-      margin-bottom: 0.3rem;
-    }
-
-    .cookie-text p:last-child {
-      margin-bottom: 0;
-    }
-
-    .cookie-text strong {
-      color: #5364A8;
-      font-weight: 700;
-    }
+    .cookie-text p { margin-bottom: 0.3rem; }
+    .cookie-text p:last-child { margin-bottom: 0; }
+    .cookie-text strong { color: #5364A8; font-weight: 700; }
 
     .cookie-divider {
       width: 50px;
@@ -243,6 +242,7 @@
       flex: 1 1 auto;
     }
 
+    /* Got it — primário (#5364A8) */
     .btn-primary {
       background: linear-gradient(145deg, #5364A8, #3A4A7A);
       border: 1px solid #3A4A7A;
@@ -257,6 +257,7 @@
       border-color: #2A3A6A;
     }
 
+    /* No, thanks — neutro */
     .btn-secondary {
       background: #f0f2f8;
       border: 1px solid #c8d0e5;
@@ -270,9 +271,7 @@
       transform: scale(1.01);
     }
 
-    .btn:active {
-      transform: scale(0.96);
-    }
+    .btn:active { transform: scale(0.96); }
 
     /* Rodapé */
     .privacy-footer {
@@ -293,20 +292,53 @@
       border-radius: 30px;
     }
 
-    /* ----- ANIMAÇÃO DO MODAL: SLIDE DE BAIXO PARA CIMA COM SETTLE ----- */
+    /* ----- ANIMAÇÃO DE ENTRADA DO MODAL ----- */
     @keyframes slideUpBounce {
-      0% {
-        opacity: 0;
-        transform: translateY(100vh);
-      }
-      75% {
-        opacity: 1;
-        transform: translateY(-25px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      0%   { opacity: 0; transform: translateY(100vh); }
+      75%  { opacity: 1; transform: translateY(-25px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       SPINNER DE CARREGAMENTO — cor principal #5364A8
+    ============================================================ */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      background: rgba(8, 20, 35, 0.25);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+    }
+
+    .loading-overlay.active {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.3s ease, visibility 0s linear 0s;
+    }
+
+    .loading-spinner {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 4px solid rgba(83, 100, 168, 0.2);   /* #5364A8 a 20% */
+      border-top-color: #5364A8;                    /* cor principal */
+      border-right-color: #5364A8;                  /* cor principal */
+      animation: spin 0.9s linear infinite;
+      box-shadow: 0 8px 24px rgba(83, 100, 168, 0.25);
+      filter: drop-shadow(0 0 12px rgba(83, 100, 168, 0.4));
+    }
+
+    @keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     /* ============================================================
@@ -350,9 +382,7 @@
         border-radius: 10px;
       }
 
-      .cookie-text p {
-        margin-bottom: 0.3rem;
-      }
+      .cookie-text p { margin-bottom: 0.3rem; }
 
       .cookie-divider {
         width: 34px;
@@ -388,12 +418,16 @@
         opacity: 0.8;
       }
 
-      .privacy-footer span {
-        padding: 0.05rem 0.7rem;
-      }
+      .privacy-footer span { padding: 0.05rem 0.7rem; }
 
       .cookie-modal::after {
         border-radius: 18px 18px 16px 16px;
+      }
+
+      .loading-spinner {
+        width: 48px;
+        height: 48px;
+        border-width: 3px;
       }
     }
 
@@ -409,8 +443,7 @@
   </style>
 
   <!-- ============================================================
-    🟢 MICROSOFT CLARITY — Gravações e mapas de calor
-    Não remover.
+    🟢 MICROSOFT CLARITY
   ============================================================ -->
   <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -426,14 +459,11 @@
 </head>
 <body>
 
-  <!-- ===== FUNDO COM IMAGEM (sem desfoque) ===== -->
   <div class="page-bg" role="img" aria-label="Prostadine - Healthy Prostate background"></div>
   <div class="overlay"></div>
 
-  <!-- ===== MODAL COOKIE POLICY ===== -->
   <div class="cookie-modal" role="dialog" aria-labelledby="cookieTitle" aria-modal="true">
 
-    <!-- Botão "X" -->
     <a href="https://myprostadine24.com/text.php?cookies=declined#aff=vp0290"
        class="modal-close"
        id="closeXBtn"
@@ -451,7 +481,6 @@
 
     <div class="cookie-divider"></div>
 
-    <!-- ===== BOTÕES ===== -->
     <div class="button-group">
       <a href="https://myprostadine24.com/text.php?cookies=yes#aff=vp0290"
          class="btn btn-primary"
@@ -473,22 +502,47 @@
   </div>
 
   <!-- ============================================================
+    SPINNER DE CARREGAMENTO
+  ============================================================ -->
+  <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+    <div class="loading-spinner" role="status" aria-label="Loading"></div>
+  </div>
+
+  <!-- ============================================================
     🔴 GOOGLE ADS — EVENTO DE CONVERSÃO
+    Ao clicar: pixel + animação + spinner + navegação EM PARALELO.
   ============================================================ -->
   <script>
     function gtag_report_conversion(url) {
+      if (window.__redirecting) return false;
+      window.__redirecting = true;
+
       var finalUrl = appendGclidToUrl(url);
 
-      var callback = function () {
-        if (typeof(finalUrl) != 'undefined') {
-          window.location = finalUrl;
-        }
-      };
+      var modal = document.querySelector('.cookie-modal');
+      var overlay = document.querySelector('.overlay');
+      var loadingOverlay = document.getElementById('loadingOverlay');
+
+      // Pixel do Google Ads
       gtag('event', 'conversion', {
         'send_to': 'AW-18423452005/QPuvCOfilewcEOWi_tBE',
-        'transaction_id': '',
-        'event_callback': callback
+        'transaction_id': ''
       });
+
+      // Animações de saída
+      if (modal) modal.classList.add('exit');
+      if (overlay) overlay.classList.add('exit');
+
+      // Spinner com fade-in suave
+      if (loadingOverlay) {
+        setTimeout(function () {
+          loadingOverlay.classList.add('active');
+        }, 120);
+      }
+
+      // Redirecionamento em paralelo
+      window.location.href = finalUrl;
+
       return false;
     }
   </script>
