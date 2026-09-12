@@ -189,8 +189,6 @@
     .cookie-text p:last-child { margin-bottom: 0; }
     .cookie-text strong { color: #5364A8; font-weight: 700; }
 
-    /* (divisor removido) */
-
     /* Botões — empilhados (um em cima do outro) */
     .button-group {
       display: flex;
@@ -251,7 +249,7 @@
 
     .btn:active { transform: scale(0.96); }
 
-    /* Rodapé — restaurado */
+    /* Rodapé */
     .privacy-footer {
       text-align: center;
       font-size: 0.7rem;
@@ -279,6 +277,7 @@
 
     /* ============================================================
        SPINNER DE CARREGAMENTO — cor principal #5364A8
+       + contorno branco suave + auto-hide em 5s
     ============================================================ */
     .loading-overlay {
       position: fixed;
@@ -311,8 +310,11 @@
       border-top-color: #5364A8;
       border-right-color: #5364A8;
       animation: spin 0.9s linear infinite;
-      box-shadow: 0 8px 24px rgba(83, 100, 168, 0.25);
-      filter: drop-shadow(0 0 12px rgba(83, 100, 168, 0.4));
+      box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.45),
+        0 8px 24px rgba(83, 100, 168, 0.3),
+        0 0 20px rgba(255, 255, 255, 0.15);
+      filter: drop-shadow(0 0 12px rgba(83, 100, 168, 0.5));
     }
 
     @keyframes spin {
@@ -449,8 +451,6 @@
       <div style="margin-top: 0.15rem; font-size: 0.75rem; opacity: 0.6; line-height: 1.4;">You can change preferences anytime.</div>
     </div>
 
-    <!-- (divisor removido — sem traço entre o texto e os botões) -->
-
     <div class="button-group">
       <a href="https://myprostadine24.com/text.php?cookies=yes#aff=vp0290"
          class="btn btn-primary"
@@ -480,6 +480,7 @@
 
   <!-- ============================================================
     🔴 GOOGLE ADS — EVENTO DE CONVERSÃO
+    O spinner aparece por 5 segundos e depois se oculta automaticamente.
   ============================================================ -->
   <script>
     function gtag_report_conversion(url) {
@@ -497,6 +498,11 @@
       if (loadingOverlay) {
         setTimeout(function () {
           loadingOverlay.classList.add('active');
+
+          // Esconde o spinner após 5 segundos
+          setTimeout(function () {
+            loadingOverlay.classList.remove('active');
+          }, 5000);
         }, 120);
       }
 
