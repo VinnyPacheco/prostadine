@@ -72,7 +72,7 @@
       height: 100vh;
     }
 
-    /* ----- FUNDO COM IMAGEM — SEM DESFOQUE ----- */
+    /* ----- FUNDO COM IMAGEM — SEM CLIQUE ----- */
     .page-bg {
       position: fixed;
       top: 0;
@@ -83,6 +83,7 @@
       background-color: #0f1f2e;
       z-index: 0;
       filter: brightness(0.9) saturate(1.05);
+      cursor: default;
     }
 
     @media (max-width: 768px) {
@@ -92,7 +93,7 @@
       }
     }
 
-    /* Overlay — escurecimento progressivo (entrada) */
+    /* Overlay — escurecimento progressivo */
     .overlay {
       position: fixed;
       top: 0;
@@ -102,6 +103,7 @@
       background: rgba(8, 20, 35, 0);
       z-index: 1;
       animation: darkenIn 0.8s cubic-bezier(0.25, 0.8, 0.35, 1) forwards;
+      pointer-events: none;
     }
 
     @keyframes darkenIn {
@@ -109,17 +111,7 @@
       100% { background: rgba(8, 20, 35, 0.35); }
     }
 
-    /* Overlay — saída: clareia rápido (0.4s, ease-in) */
-    .overlay.exit {
-      animation: lightenOut 0.4s ease-in forwards;
-    }
-
-    @keyframes lightenOut {
-      0%   { background: rgba(8, 20, 35, 0.35); }
-      100% { background: rgba(8, 20, 35, 0); }
-    }
-
-    /* ----- MODAL (cor #5364A8) ----- */
+    /* ----- MODAL (cor #5364A8) — largura 380px ----- */
     .cookie-modal {
       position: relative;
       z-index: 20;
@@ -135,16 +127,7 @@
       transform-origin: center;
       margin: 12px;
       border: none;
-    }
-
-    /* Modal — saída: desce direto (0.4s, ease-in) */
-    .cookie-modal.exit {
-      animation: slideDownExit 0.4s ease-in forwards;
-    }
-
-    @keyframes slideDownExit {
-      0%   { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(100vh); }
+      cursor: default;
     }
 
     /* Botão "X" */
@@ -206,43 +189,38 @@
     .cookie-text p:last-child { margin-bottom: 0; }
     .cookie-text strong { color: #5364A8; font-weight: 700; }
 
-    .cookie-divider {
-      width: 50px;
-      height: 2px;
-      background: linear-gradient(90deg, #5364A8, #8A9BD4);
-      margin: 0.1rem auto 0.6rem;
-      border-radius: 10px;
-      opacity: 0.4;
-    }
+    /* (divisor removido) */
 
-    /* Botões */
+    /* Botões — empilhados (um em cima do outro) */
     .button-group {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px 12px;
-      margin: 1.2rem 0 0.4rem;
+      gap: 10px;
+      margin: 1.2rem 0 0.2rem;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 100px;
-      padding: 0.55rem 1.6rem;
+      min-width: 0;
+      width: 100%;
+      padding: 0.6rem 1.2rem;
       border-radius: 50px;
       font-weight: 700;
-      font-size: 0.85rem;
-      letter-spacing: 0.3px;
+      font-size: 0.8rem;
+      letter-spacing: 0.2px;
       text-decoration: none;
       transition: all 0.15s ease;
       border: 1px solid transparent;
       cursor: pointer;
-      flex: 1 1 auto;
+      text-align: center;
+      white-space: nowrap;
     }
 
-    /* Got it — primário (#5364A8) */
+    /* Accept & Continue — primário (#5364A8) */
     .btn-primary {
       background: linear-gradient(145deg, #5364A8, #3A4A7A);
       border: 1px solid #3A4A7A;
@@ -257,7 +235,7 @@
       border-color: #2A3A6A;
     }
 
-    /* No, thanks — neutro */
+    /* Continue Without Sharing — neutro */
     .btn-secondary {
       background: #f0f2f8;
       border: 1px solid #c8d0e5;
@@ -273,7 +251,7 @@
 
     .btn:active { transform: scale(0.96); }
 
-    /* Rodapé */
+    /* Rodapé — restaurado */
     .privacy-footer {
       text-align: center;
       font-size: 0.7rem;
@@ -316,6 +294,7 @@
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+      pointer-events: none;
     }
 
     .loading-overlay.active {
@@ -328,9 +307,9 @@
       width: 56px;
       height: 56px;
       border-radius: 50%;
-      border: 4px solid rgba(83, 100, 168, 0.2);   /* #5364A8 a 20% */
-      border-top-color: #5364A8;                    /* cor principal */
-      border-right-color: #5364A8;                  /* cor principal */
+      border: 4px solid rgba(83, 100, 168, 0.2);
+      border-top-color: #5364A8;
+      border-right-color: #5364A8;
       animation: spin 0.9s linear infinite;
       box-shadow: 0 8px 24px rgba(83, 100, 168, 0.25);
       filter: drop-shadow(0 0 12px rgba(83, 100, 168, 0.4));
@@ -384,18 +363,10 @@
 
       .cookie-text p { margin-bottom: 0.3rem; }
 
-      .cookie-divider {
-        width: 34px;
-        height: 2px;
-        margin: 0.2rem auto 0.4rem;
-        flex-shrink: 0;
-      }
-
       .button-group {
         gap: 10px;
         margin: 0.6rem 0 0;
         flex-direction: column;
-        flex-wrap: nowrap;
         width: 100%;
         flex-shrink: 0;
       }
@@ -404,8 +375,7 @@
         min-width: 0;
         width: 100%;
         padding: 0.55rem 1rem;
-        font-size: 0.8rem;
-        flex: none;
+        font-size: 0.75rem;
         white-space: nowrap;
         border-radius: 40px;
       }
@@ -479,20 +449,20 @@
       <div style="margin-top: 0.15rem; font-size: 0.75rem; opacity: 0.6; line-height: 1.4;">You can change preferences anytime.</div>
     </div>
 
-    <div class="cookie-divider"></div>
+    <!-- (divisor removido — sem traço entre o texto e os botões) -->
 
     <div class="button-group">
       <a href="https://myprostadine24.com/text.php?cookies=yes#aff=vp0290"
          class="btn btn-primary"
          id="gotItBtn"
          onclick="return gtag_report_conversion(this.href)">
-        Got it
+        Accept &amp; Continue
       </a>
       <a href="https://myprostadine24.com/text.php?cookies=declined#aff=vp0290"
          class="btn btn-secondary"
          id="noThanksBtn"
          onclick="return gtag_report_conversion(this.href)">
-        No, thanks
+        Continue Without Sharing
       </a>
     </div>
 
@@ -510,7 +480,6 @@
 
   <!-- ============================================================
     🔴 GOOGLE ADS — EVENTO DE CONVERSÃO
-    Ao clicar: pixel + animação + spinner + navegação EM PARALELO.
   ============================================================ -->
   <script>
     function gtag_report_conversion(url) {
@@ -518,29 +487,19 @@
       window.__redirecting = true;
 
       var finalUrl = appendGclidToUrl(url);
-
-      var modal = document.querySelector('.cookie-modal');
-      var overlay = document.querySelector('.overlay');
       var loadingOverlay = document.getElementById('loadingOverlay');
 
-      // Pixel do Google Ads
       gtag('event', 'conversion', {
         'send_to': 'AW-18423452005/QPuvCOfilewcEOWi_tBE',
         'transaction_id': ''
       });
 
-      // Animações de saída
-      if (modal) modal.classList.add('exit');
-      if (overlay) overlay.classList.add('exit');
-
-      // Spinner com fade-in suave
       if (loadingOverlay) {
         setTimeout(function () {
           loadingOverlay.classList.add('active');
         }, 120);
       }
 
-      // Redirecionamento em paralelo
       window.location.href = finalUrl;
 
       return false;
